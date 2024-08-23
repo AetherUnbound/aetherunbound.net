@@ -4,12 +4,16 @@
   "description": "",
   "scripts": {
     "generate": "npm run clean && node ./generate.js",
-    "clean": "rm public/*"
+    "clean": "rm public/*",
+    "serve": "http-server public/",
+    "watch": "onchange 'src/**/*' -- npm run generate"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@types/node": "^22.4.2"
+    "@types/node": "^22.4.2",
+    "http-server": "^14.1.1",
+    "onchange": "^7.1.0"
   },
   "type": "module",
   "dependencies": {

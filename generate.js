@@ -14,7 +14,7 @@ const templates = readdirSync(TEMPLATE_PATH);
  * @type {(path: string) => string}
  */
 function render(path) {
-  if (path.endsWith(".js")) {
+  if (path.endsWith(".js") || path.endsWith(".css")) {
     // Serve as-is
     return readFileSync(path).toString();
   } else if (path.endsWith(".md")) {
