@@ -1,3 +1,18 @@
 html {
   font-family: 'Inconsolata', monospace;
 }
+
+main {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+#activity-groups, #project-groups {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.activity-group, .project-group {
+  flex: 1 1 0px;
+}
