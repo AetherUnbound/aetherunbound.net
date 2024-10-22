@@ -1,1 +1,1 @@
-Hi I'm Madison! Bark bark bark bark bark bark bark bark bark bark bark bark bark bark bark bark bark bark bark bark bark bark bark bark bark bark bark bark bark bark bark bark bark bark bark bark bark bark bark bark bark bark bark bark bark bark
+Hey there, I'm Madison! 💖 I'm an experienced data engineer passionate about open source, automation, and maintainable code.

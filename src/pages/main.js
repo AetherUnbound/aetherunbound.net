@@ -17,7 +17,6 @@ const fetchEvents = async () => {
 
 const EVENT_TYPES = [
   "CreateEvent",
-  "ForkEvent",
   "IssueCommentEvent",
   "IssuesEvent",
   "PullRequestEvent",
@@ -30,7 +29,6 @@ const EVENT_TYPES = [
 const events = (await fetchEvents()).filter((event) =>
   EVENT_TYPES.includes(event.type || "")
 );
-console.log(events);
 
 const repos = events.reduce(
   /**

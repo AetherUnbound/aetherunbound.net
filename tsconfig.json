@@ -12,7 +12,7 @@
     "target": "ESNext",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "lib": ["DOM"]
+    "lib": ["DOM", "ESNext"]
   },
   "include": ["./src/pages/main.js", "./generate.js"]
 }
