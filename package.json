@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "generate": "npm run clean && node ./generate.js",
-    "clean": "rm public/*",
+    "generate": "npm run clean; node ./generate.js",
+    "clean": "mkdir -p public && rm public/*",
     "serve": "http-server public/",
-    "watch": "onchange 'src/**/*' -- npm run generate"
+    "watch": "npm run generate && onchange 'src/**/*' -- npm run generate"
   },
   "author": "",
   "license": "ISC",
