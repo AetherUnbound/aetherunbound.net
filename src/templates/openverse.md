@@ -1,3 +1,9 @@
-# Openverse
+# [Openverse](https://openverse.org)
 
-An extensive library of free stock photos, images, and audio, available for free use.
+An open-source search engine for openly licensed media aggregated from numerous sources across the web.
+
+**Stack**: Python, Airflow, Postgres, Django, Elasticsearch, Docker, VueJS
+
+**Role**: Core Maintainer
+
+**Repo**: [`WordPress/openverse`](https://github.com/WordPress/openverse)
