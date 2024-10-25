@@ -1,3 +1,9 @@
-# CellProfiler
+# [CellProfiler](https://cellprofiler.org/)
 
-Free open-source software for measuring and analyzing cell images.
+A FOSS application which enables biologists to easily employ image processing and analysis on cellular images.
+
+**Stack**: Python, Numpy, Scikit-image, wxPython, Docker
+
+**Role**: Contributor Emeritus
+
+**Repo**: [`CellProfiler/CellProfiler`](https://github.com/CellProfiler/CellProfiler)

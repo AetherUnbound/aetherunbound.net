@@ -44,6 +44,11 @@ section > h1:first-child::after {
   border: 1px solid #000;
 }
 
+section p {
+  text-align: justify;
+  text-justify: auto;
+}
+
 #activity-groups,
 #project-groups {
   display: flex;
@@ -54,4 +59,10 @@ section > h1:first-child::after {
 .activity-group,
 .project-group {
   flex: 1 1 0px;
+  padding: 5px 10px;
+}
+
+/* Shrink code down a little to match text */
+code {
+  font-size: 0.8em;
 }
