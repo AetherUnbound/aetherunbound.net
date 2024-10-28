@@ -2,7 +2,7 @@
 
 ## Talks & Presentations
 
-- [What's New in Apache Airflow 3.0 (Panel)](https://www.linkedin.com/posts/astronomer_airflowsummit2024-activity-7240043535620567041-PsgE) [_Airflow Summit 2024_]
+- [Airflow 3.0 - Roadmap Discussion (Panel)](https://www.youtube.com/watch?v=GYJL1kOKFz0) [_Airflow Summit 2024_]
 - [As Easy as Breathing - Manage Your Workflows with Airflow!](https://www.linkedin.com/posts/diversity-in-data-science_widspugetsound-womenindata-wids-activity-7183206393959645185-_gcv) [_Women in Data Science: Puget Sound 2024_]
 - [Empowerment Journeys: Entering, Exceling, and Exceeding Expectations in the Data Science Workforce (Panel)](https://widspugetsound.sched.com/event/1b9Ng/empowerment-journeys-entering-exceling-and-exceeding-expectations-in-the-data-science-workforce) [_Women in Data Science: Puget Sound 2024_]
 - [Forging the Future: Five years of fabricating with Airflow](https://www.youtube.com/watch?v=z_BkpAA0RkA) [_Airflow Summit 2023_]
