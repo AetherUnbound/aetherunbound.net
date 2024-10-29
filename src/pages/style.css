@@ -42,11 +42,6 @@ em {
   color: var(--accent-color);
 }
 
-em::after {
-  content: "]";
-  color: var(--primary-color);
-}
-
 section {
   margin-bottom: 40px;
 }
