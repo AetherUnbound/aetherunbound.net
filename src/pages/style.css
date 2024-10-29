@@ -1,68 +1,66 @@
+@import url("https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap");
+
 :root {
-  --section-padding: 15px;
+  --background-color: #111;
+  --primary-color: #eee;
+  --accent-color: rgba(21, 191, 255, 1);
+  --secondary-color: rgba(255, 18, 156, 1);
 }
 
 html {
-  font-family: "Inconsolata", monospace;
+  font-family: "Fira Code", monospace;
+  background: var(--background-color);
+  color: var(--primary-color);
+  font-size: 16px;
 }
 
 main {
-  max-width: 960px;
-  margin: 0 auto;
+  /* max-width: 960px; */
+  margin: 0 15px;
+}
+
+a {
+  color: var(--secondary-color);
+  text-decoration: dotted underline;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+a:active {
+  color: var(--accent-color);
+}
+
+b,
+strong {
+  color: var(--accent-color);
+}
+
+i,
+em {
+  color: var(--accent-color);
+}
+
+em::after {
+  content: "]";
+  color: var(--primary-color);
 }
 
 section {
-  border: 1px solid #000;
-  padding: 15px;
   margin-bottom: 40px;
 }
 
-section > h1:first-child {
-  margin: calc(-1 * (var(--section-padding)));
-  background: rgb(91, 206, 250);
-  background: linear-gradient(
-    90deg,
-    rgba(21, 191, 255, 1) 0%,
-    rgba(255, 255, 255, 1) 50%,
-    rgba(255, 18, 156, 1) 100%
-  );
-  border-bottom: 1px solid #000;
-  padding: 5px;
-  margin-bottom: 0;
-  display: flex;
-  justify-content: space-between;
+section ul {
+  padding-left: 20px;
 }
 
-section > h1:first-child::after {
-  content: "✕";
-  text-align: center;
-  background-color: #fff;
-  display: inline-block;
-  width: 25px;
-  height: 25px;
-  line-height: 25px;
-  border: 1px solid #000;
-}
-
-section p {
-  text-align: justify;
-  text-justify: auto;
-}
-
-#activity-groups,
-#project-groups {
+.columns {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
 
-.activity-group,
-.project-group {
-  flex: 1 1 0px;
-  padding: 5px 10px;
-}
-
-/* Shrink code down a little to match text */
-code {
-  font-size: 0.8em;
+.column {
+  padding-right: 1em;
 }
