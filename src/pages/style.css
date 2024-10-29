@@ -19,6 +19,13 @@ main {
   margin: 0 15px;
 }
 
+h1,
+h2,
+h3,
+h4 {
+  margin: 10px 0;
+}
+
 a {
   color: var(--secondary-color);
   text-decoration: dotted underline;
@@ -48,6 +55,10 @@ section {
 
 section ul {
   padding-left: 20px;
+}
+
+section h1 {
+  font-size: 2em;
 }
 
 .columns {

@@ -1,4 +1,4 @@
-# [OpenOversight](https://spd.watch)
+## [OpenOversight](https://spd.watch)
 
 A searchable database of law enforcement officers backed by public records requests and user-supplied photos.
 

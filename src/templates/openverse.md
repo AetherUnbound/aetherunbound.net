@@ -1,4 +1,4 @@
-# [Openverse](https://openverse.org)
+## [Openverse](https://openverse.org)
 
 An open-source search engine for openly licensed media aggregated from numerous sources across the web.
 

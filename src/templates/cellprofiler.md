@@ -1,4 +1,4 @@
-# [CellProfiler](https://cellprofiler.org/)
+## [CellProfiler](https://cellprofiler.org/)
 
 A FOSS application which enables biologists to easily employ image processing and analysis on cellular images.
 
