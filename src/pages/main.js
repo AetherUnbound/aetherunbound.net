@@ -5,7 +5,7 @@
 /** @returns {Promise<ActivityResponse>} */
 const fetchEvents = async () => {
   const resp = await fetch(
-    "https://api.github.com/users/AetherUnbound/events/public?per_page=100"
+    "https://api.github.com/users/AetherUnbound/events/public?per_page=100",
   );
   if (!resp.ok) {
     throw new Error();
@@ -27,7 +27,7 @@ const EVENT_TYPES = [
 ];
 
 const events = (await fetchEvents()).filter((event) =>
-  EVENT_TYPES.includes(event.type || "")
+  EVENT_TYPES.includes(event.type || ""),
 );
 
 const repos = events.reduce(
@@ -46,7 +46,7 @@ const repos = events.reduce(
 
     return acc;
   },
-  {}
+  {},
 );
 
 console.log(repos);
