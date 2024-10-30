@@ -27,8 +27,8 @@
 
 - [Openverse Wins the 2023 OEG Open Infrastructure Award](https://wordpress.org/news/2023/09/openverse-wins-the-2023-oeg-open-infrastructure-award/) [_WordPress.org_]
 - [A message from a few of the trans staff at Tumblr & Automattic](https://www.tumblr.com/staff/743224389484625920/a-message-from-a-few-of-the-trans-staff-at-tumblr?source=share) [_tumblr.com staff blog_]
-- Viana, M.P., Chen, J., Knijnenburg, T.A. *et al.* Integrated intracellular organization and its variations in human iPS cells. *Nature* **613**, 345--354 (2023). https://doi.org/10.1038/s41586-022-05563-7 [_Nature_]
--  Gregor, B.W., Coston, M.E., Adams, E.M. *et al.* Automated human induced pluripotent stem cell culture and sample preparation for 3D live-cell microscopy. *Nat Protoc* **19**, 565--594 (2024). https://doi.org/10.1038/s41596-023-00912-w [_Nature Protocols_]
+- [Integrated intracellular organization and its variations in human iPS cells](https://doi.org/10.1038/s41586-022-05563-7) (Viana, M.P., Chen, J., Knijnenburg, T.A. et al.) [_Nature_]
+- [Automated human induced pluripotent stem cell culture and sample preparation for 3D live-cell microscopy](https://doi.org/10.1038/s41596-023-00912-w) (Gregor, B.W., Coston, M.E., Adams, E.M. et al.) [_Nature Protocols_]
 - [Automattic’s First Data+ Meetup](https://data.blog/2022/12/16/automattics-first-data-meetup/) [_data.blog_]
 - [Women of Datamattic: Madison Swain-Bowden](https://data.blog/2023/03/15/women-of-datamattic-madison-swain-bowden/) [_data.blog_]
 
