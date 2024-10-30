@@ -26,7 +26,7 @@ h4 {
   margin: 10px 0;
 }
 
-a {
+a:not(.terminal-link) {
   color: var(--secondary-color);
   text-decoration: dotted underline;
 }
@@ -35,7 +35,7 @@ a:hover {
   text-decoration: none;
 }
 
-a:active {
+a:active:not(.terminal-link) {
   color: var(--accent-color);
 }
 
@@ -50,7 +50,7 @@ em {
 }
 
 section {
-  margin-bottom: 40px;
+  margin-bottom: 25px;
 }
 
 section ul {
@@ -69,4 +69,19 @@ section h1 {
 
 .column {
   padding-right: 1em;
+}
+
+/* Terminal settings */
+a.terminal-link {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.terminal-username {
+  color: var(--accent-color);
+}
+
+.terminal-hostname {
+  color: var(--secondary-color);
 }
