@@ -35,6 +35,7 @@
 ## Organizing
 
 I have been an organizer of [PyCascades](https://pycascades.com), a regional Python conference in the Pacific Northwest area, since 2020. I've served in the following ways each year:
+
 - **2021**: [Diversity Chair](https://2021.pycascades.com/about/team/)
 - **2022**: [Co-Chair](https://2022.pycascades.com/about/team/)
 - **2023**: [Diversity Chair](https://2023.pycascades.com/about/team/)
