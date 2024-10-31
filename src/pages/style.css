@@ -85,3 +85,9 @@ a.terminal-link {
 .terminal-hostname {
   color: var(--secondary-color);
 }
+
+.mastodon-verify {
+  height: 0px;
+  width: 0px;
+  overflow: hidden;
+}
