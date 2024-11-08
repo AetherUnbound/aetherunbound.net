@@ -1,9 +1,15 @@
-import { readFileSync, readdirSync, writeFileSync } from "fs";
-import { join as joinPath } from "path";
+import {
+  readFileSync,
+  readdirSync,
+  writeFileSync,
+  lstatSync,
+  cpSync,
+} from "fs";
+import { join as joinPath, basename } from "path";
 import { marked } from "marked";
-import { default as config } from "./config.json" with { type: "json"}
+import { default as config } from "./config.json" with { type: "json" };
 
-const {PAGES_PATH, TEMPLATE_PATH } = config;
+const { PAGES_PATH, TEMPLATE_PATH } = config;
 const OUTPUT_PATH = "public/"; // This value is hard-coded rather than exposed in config because it is used by package.json scripts as well.
 
 const pages = readdirSync(PAGES_PATH);
@@ -11,10 +17,13 @@ const templates = readdirSync(TEMPLATE_PATH);
 
 /**
  * Given a file path, generate the static output for the contents of that file.
- * @type {(path: string) => string}
+ * @type {(path: string) => string | null}
  */
 function render(path) {
-  if (path.endsWith(".js") || path.endsWith(".css")) {
+  if (lstatSync(path).isDirectory()) {
+    cpSync(path, joinPath(OUTPUT_PATH, basename(path)), { recursive: true });
+    return null;
+  } else if (path.endsWith(".js") || path.endsWith(".css")) {
     // Serve as-is
     return readFileSync(path).toString();
   } else if (path.endsWith(".md")) {
@@ -29,7 +38,7 @@ function render(path) {
 
       return acc.replaceAll(
         `<!--${template}-->`,
-        render(joinPath(TEMPLATE_PATH, template))
+        render(joinPath(TEMPLATE_PATH, template)) || ""
       );
     }, html);
   } else {
@@ -39,5 +48,7 @@ function render(path) {
 
 pages.forEach((page) => {
   const rendered = render(joinPath(PAGES_PATH, page));
-  writeFileSync(joinPath(OUTPUT_PATH, page), rendered);
+  if (rendered) {
+    writeFileSync(joinPath(OUTPUT_PATH, page), rendered);
+  }
 });
