@@ -26,7 +26,7 @@ h4 {
   margin: 10px 0;
 }
 
-a:not(.terminal-link) {
+a:not(.prompt-link) {
   color: var(--secondary-color);
   text-decoration: dotted underline;
 }
@@ -35,7 +35,7 @@ a:hover {
   text-decoration: none;
 }
 
-a:active:not(.terminal-link) {
+a:active:not(.prompt-link) {
   color: var(--accent-color);
 }
 
@@ -74,18 +74,22 @@ section h1 {
 }
 
 /* Terminal settings */
-a.terminal-link {
+a.prompt-link {
   color: var(--primary-color);
   text-decoration: none;
   font-weight: bold;
 }
 
-.terminal-username {
+.prompt-username {
   color: var(--accent-color);
 }
 
-.terminal-hostname {
+.prompt-hostname {
   color: var(--secondary-color);
+}
+
+.prompt-input:focus {
+  outline: none;
 }
 
 .mastodon-verify {

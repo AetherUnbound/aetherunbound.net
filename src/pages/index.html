@@ -5,15 +5,24 @@
     <main>
       <template id="template-prompt">
         <div class="entry">
-          <span class="prompt">madison@aetherunbound.net:~$</span>
+          <span class="prompt"
+            ><a
+              class="prompt-link"
+              href="mailto:madison+website@aetherunbound.net"
+            >
+              <span class="prompt-username">madison</span
+              ><span class="prompt-hostname">@aetherunbound.net</span></a
+            >:<span class="prompt-path">~</span>$
+          </span>
+          <span class="prompt-input" contenteditable></span>
         </div>
       </template>
       <div id="terminal"></div>
     </main>
-    <!-- <script src="main.js" type="module"></script> -->
     <script src="term.js" type="module"></script>
     <div class="mastodon-verify">
       <a rel="me" href="https://hachyderm.io/@aether"></a>
     </div>
+    <script src="term.js" type="module"></script>
   </body>
 </html>
