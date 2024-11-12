@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "generate": "npm run clean; node ./generate.js",
-    "clean": "mkdir -p public && rm public/*",
+    "generate": "node ./generate.js",
+    "clean": "rm public/*",
     "serve": "http-server public/",
     "watch": "npm run generate && onchange 'src/**/*' -- npm run generate",
     "prettier": "prettier --write ./src/**/*"

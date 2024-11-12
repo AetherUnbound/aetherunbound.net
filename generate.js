@@ -1,54 +1,55 @@
 import {
-  readFileSync,
-  readdirSync,
-  writeFileSync,
-  lstatSync,
   cpSync,
+  readdirSync,
+  readFileSync,
+  writeFileSync,
+  rmSync,
+  mkdirSync,
 } from "fs";
-import { join as joinPath, basename } from "path";
+import { join as joinPath } from "path";
 import { marked } from "marked";
-import { default as config } from "./config.json" with { type: "json" };
 
-const { PAGES_PATH, TEMPLATE_PATH } = config;
+const SOURCE_PATH = "src/";
 const OUTPUT_PATH = "public/"; // This value is hard-coded rather than exposed in config because it is used by package.json scripts as well.
 
-const pages = readdirSync(PAGES_PATH);
-const templates = readdirSync(TEMPLATE_PATH);
+const FILES_DIR = "files";
+const STATIC_DIR = "static";
 
-/**
- * Given a file path, generate the static output for the contents of that file.
- * @type {(path: string) => string | null}
- */
-function render(path) {
-  if (lstatSync(path).isDirectory()) {
-    cpSync(path, joinPath(OUTPUT_PATH, basename(path)), { recursive: true });
-    return null;
-  } else if (path.endsWith(".js") || path.endsWith(".css")) {
-    // Serve as-is
-    return readFileSync(path).toString();
-  } else if (path.endsWith(".md")) {
-    const md = readFileSync(path).toString();
-    return marked.parse(md, { async: false });
-  } else if (path.endsWith(".html")) {
-    const html = readFileSync(path).toString();
-    return templates.reduce((acc, template) => {
-      if (!acc.includes(`<!--${template}-->`)) {
-        return acc;
-      }
+// Clear existing public directory
+{
+  try {
+    rmSync(OUTPUT_PATH, { recursive: true });
+  } catch (e) {}
 
-      return acc.replaceAll(
-        `<!--${template}-->`,
-        render(joinPath(TEMPLATE_PATH, template)) || ""
-      );
-    }, html);
-  } else {
-    throw new Error(`Cannot handle extension: ${path}`);
-  }
+  mkdirSync(OUTPUT_PATH);
 }
 
-pages.forEach((page) => {
-  const rendered = render(joinPath(PAGES_PATH, page));
-  if (rendered) {
-    writeFileSync(joinPath(OUTPUT_PATH, page), rendered);
-  }
-});
+// Compose HTML
+{
+  // Turn files into embeddable markup to be exposed as virtual "files" in the terminal.
+  const files = readdirSync(joinPath(SOURCE_PATH, FILES_DIR))
+    .map(
+      (filename) =>
+        /** @type {[string, string]} */ ([
+          filename,
+          readFileSync(joinPath(SOURCE_PATH, FILES_DIR, filename)).toString(),
+        ])
+    )
+    .map(
+      ([filename, content]) =>
+        `<div data-name="${filename}">
+  ${marked.parse(content, { async: false })}
+</div>`
+    )
+    .join("\n");
+  const html = readFileSync(joinPath(SOURCE_PATH, "index.html")).toString();
+  const composed = html.replace(`<!--files-->`, files);
+  writeFileSync(joinPath(OUTPUT_PATH, "index.html"), composed);
+}
+
+// Copy static files to root of output dir
+{
+  cpSync(joinPath(SOURCE_PATH, STATIC_DIR), OUTPUT_PATH, {
+    recursive: true,
+  });
+}

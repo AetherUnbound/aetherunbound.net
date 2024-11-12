@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Madison Swain-Bowden</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/modern-normalize@3.0.0/modern-normalize.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./style.css" />
+    <!-- Favicon info -->
+    <link
+      rel="icon"
+      type="image/png"
+      href="./images/favicon-96x96.png"
+      sizes="96x96"
+    />
+    <link rel="icon" type="image/svg+xml" href="./images/favicon.svg" />
+    <link rel="shortcut icon" href="./images/favicon.ico" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="./images/apple-touch-icon.png"
+    />
+    <link rel="manifest" href="./images/site.webmanifest" />
+  </head>
+
+  <body>
+    <main>
+      <template id="template-files">
+        <!--files-->
+      </template>
+      <template id="template-prompt">
+        <div class="entry">
+          <span class="prompt"
+            ><a
+              class="prompt-link"
+              href="mailto:madison+website@aetherunbound.net"
+            >
+              <span class="prompt-username">madison</span
+              ><span class="prompt-hostname">@aetherunbound.net</span></a
+            >:<span class="prompt-path">~</span>$
+          </span>
+          <span class="prompt-input" contenteditable></span>
+        </div>
+      </template>
+      <div id="terminal"></div>
+    </main>
+    <div class="mastodon-verify">
+      <a rel="me" href="https://hachyderm.io/@aether"></a>
+    </div>
+    <script src="term.js" type="module"></script>
+  </body>
+</html>

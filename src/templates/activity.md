@@ -1,1 +1,0 @@
-# Recent GitHub Activity
