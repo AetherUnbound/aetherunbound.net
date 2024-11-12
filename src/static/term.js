@@ -52,6 +52,9 @@ const View = ({ onCommand }) => {
     },
     /** @param {string} input */
     animate: async function (input) {
+      if (!$currentPrompt) {
+        return;
+      }
       $currentPrompt.blur();
       let str = "";
       for (const char of [...input]) {
@@ -66,6 +69,7 @@ const View = ({ onCommand }) => {
   };
 };
 
+/** @type {Record<string, HTMLElement>} */
 const files = (() => {
   const $templateFiles = /** @type {HTMLTemplateElement} */ (
     document.querySelector("#template-files")
@@ -113,7 +117,7 @@ const view = View({
             view.appendSpan("You're a kitty!");
             break;
           }
-          const file = files[argv[1]];
+          const file = files[argv[1] || ""];
 
           if (!file) {
             view.appendSpan(`File not found: ${argv[1]}`);
@@ -124,7 +128,7 @@ const view = View({
         }
         break;
       default: {
-        view.append(`Unknown command: ${command}`);
+        view.appendSpan(`Command not found: ${command}`);
       }
     }
   },
