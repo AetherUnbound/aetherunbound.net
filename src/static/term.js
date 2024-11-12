@@ -1,4 +1,7 @@
-/** @param {{ onCommand: (input: string) => void}} */
+/** @param {number} t */
+const sleep = (t) => new Promise((r) => setTimeout(r, t));
+
+/** @param {{ onCommand: (input: string) => void}} options */
 const View = ({ onCommand }) => {
   const $templatePrompt = /** @type {HTMLTemplateElement} */ (
     document.querySelector("#template-prompt")
@@ -7,10 +10,6 @@ const View = ({ onCommand }) => {
     document.querySelector("#terminal")
   );
   let $currentPrompt = /** @type {HTMLSpanElement | null} */ (null);
-
-  document.addEventListener("click", (ev) => {
-    if (ev.target === document.querySelector("html")) $currentPrompt?.focus();
-  });
 
   return {
     /** @param {HTMLElement} $el */
@@ -48,19 +47,22 @@ const View = ({ onCommand }) => {
 
       $terminal.append($prompt);
       $currentPrompt = $promptInput;
-      $promptInput.focus();
+      $promptInput.focus({
+        preventScroll: true,
+      });
     },
     /** @param {string} input */
     animate: async function (input) {
       if (!$currentPrompt) {
         return;
       }
+      await sleep(1000);
       $currentPrompt.blur();
       let str = "";
       for (const char of [...input]) {
         str += char;
         $currentPrompt.innerText = str;
-        await new Promise((r) => setTimeout(r, 50));
+        await sleep(75);
       }
       $currentPrompt.dispatchEvent(
         new KeyboardEvent("keydown", { key: "Enter" })
