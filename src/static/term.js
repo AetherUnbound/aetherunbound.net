@@ -50,6 +50,19 @@ const View = ({ onCommand }) => {
       $currentPrompt = $promptInput;
       $promptInput.focus();
     },
+    /** @param {string} input */
+    animate: async function (input) {
+      $currentPrompt.blur();
+      let str = "";
+      for (const char of [...input]) {
+        str += char;
+        $currentPrompt.innerText = str;
+        await new Promise((r) => setTimeout(r, 50));
+      }
+      $currentPrompt.dispatchEvent(
+        new KeyboardEvent("keydown", { key: "Enter" })
+      );
+    },
   };
 };
 
@@ -117,3 +130,6 @@ const view = View({
   },
 });
 view.prompt();
+await view.animate("cat about.md");
+await view.animate("cat projects.md");
+await view.animate("cat pursuits.md");
