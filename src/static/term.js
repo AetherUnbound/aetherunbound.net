@@ -1,5 +1,5 @@
-/** @param {{ onInput: (input: string) => void}} onInput */
-const view = ({ onInput }) => {
+/** @param {{ onCommand: (input: string) => void}} */
+const View = ({ onCommand }) => {
   const $templatePrompt = /** @type {HTMLTemplateElement} */ (
     document.querySelector("#template-prompt")
   );
@@ -21,7 +21,7 @@ const view = ({ onInput }) => {
     appendSpan: function (content) {
       const $span = document.createElement("span");
       $span.innerText = content;
-      this.view.append($span);
+      this.append($span);
     },
     prompt: function () {
       const $prompt = /** @type {HTMLElement} */ (
@@ -37,14 +37,9 @@ const view = ({ onInput }) => {
           return;
         }
 
-        if (ev.ctrlKey && ev.key === "d") {
-          window.close();
-          return;
-        }
-
         if (ev.key === "Enter") {
           ev.preventDefault();
-          onInput($promptInput.innerText);
+          onCommand($promptInput.innerText);
           $promptInput.removeAttribute("contenteditable");
           this.prompt();
           return;
@@ -58,7 +53,7 @@ const view = ({ onInput }) => {
   };
 };
 
-const files = () => {
+const files = (() => {
   const $templateFiles = /** @type {HTMLTemplateElement} */ (
     document.querySelector("#template-files")
   );
@@ -73,61 +68,52 @@ const files = () => {
     };
   }, {});
   return fileMap;
-};
+})();
 
-class Terminal {
-  constructor() {
-    this.view = view({
-      onInput: (input) => {
-        const argv = input.split(" ");
-        const command = argv[0];
+const view = View({
+  onCommand: (input) => {
+    const argv = input.split(" ");
+    const command = argv[0];
 
-        switch (command) {
-          case "":
-            break;
-          case "whoami":
-            {
-              this.view.appendSpan("madison");
-            }
-            break;
-          case "ls":
-            {
-              const fileMap = files();
-              const $list = document.createElement("ul");
-              Object.keys(fileMap).forEach((file) => {
-                const $entry = document.createElement("li");
-                $entry.innerText = file;
-                $list.append($entry);
-              });
-              this.view.append($list);
-            }
-            break;
-          case "cat":
-            {
-              if (argv.length === 1) {
-                this.view.appendSpan("You're a kitty!");
-                break;
-              }
-              const fileMap = files();
-              const file = fileMap[argv[1]];
-
-              if (!file) {
-                this.view.appendSpan(`File not found: ${argv[1]}`);
-                break;
-              }
-
-              this.view.append(file);
-            }
-            break;
-          default: {
-            this.view.append(`Unknown command: ${command}`);
-          }
+    switch (command) {
+      case "":
+        break;
+      case "whoami":
+        {
+          view.appendSpan("madison");
         }
-      },
-    });
-    this.files = files();
-    this.view.prompt();
-  }
-}
+        break;
+      case "ls":
+        {
+          const $list = document.createElement("ul");
+          Object.keys(files).forEach((file) => {
+            const $entry = document.createElement("li");
+            $entry.innerText = file;
+            $list.append($entry);
+          });
+          view.append($list);
+        }
+        break;
+      case "cat":
+        {
+          if (argv.length === 1) {
+            view.appendSpan("You're a kitty!");
+            break;
+          }
+          const file = files[argv[1]];
 
-const term = new Terminal();
+          if (!file) {
+            view.appendSpan(`File not found: ${argv[1]}`);
+            break;
+          }
+
+          view.append(file);
+        }
+        break;
+      default: {
+        view.append(`Unknown command: ${command}`);
+      }
+    }
+  },
+});
+view.prompt();

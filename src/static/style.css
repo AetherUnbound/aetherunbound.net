@@ -26,7 +26,7 @@ h4 {
   margin: 10px 0;
 }
 
-a:not(.prompt-link) {
+a {
   color: var(--secondary-color);
   text-decoration: dotted underline;
 }
@@ -35,7 +35,7 @@ a:hover {
   text-decoration: none;
 }
 
-a:active:not(.prompt-link) {
+a:active {
   color: var(--accent-color);
 }
 
