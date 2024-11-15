@@ -12,6 +12,7 @@ const View = ({ onCommand }) => {
   let $currentPrompt = /** @type {HTMLSpanElement | null} */ (null);
 
   return {
+    preventScroll: true,
     /** @param {HTMLElement} $el */
     append: function ($el) {
       $terminal.append($el);
@@ -48,7 +49,7 @@ const View = ({ onCommand }) => {
       $terminal.append($prompt);
       $currentPrompt = $promptInput;
       $promptInput.focus({
-        preventScroll: true,
+        preventScroll: this.preventScroll,
       });
     },
     /** @param {string} input */
@@ -139,3 +140,5 @@ view.prompt();
 await view.animate("cat about.md");
 await view.animate("cat projects.md");
 await view.animate("cat pursuits.md");
+await sleep(100);
+view.preventScroll = false;
