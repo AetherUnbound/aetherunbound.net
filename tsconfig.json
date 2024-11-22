@@ -14,5 +14,5 @@
     "moduleResolution": "NodeNext",
     "lib": ["DOM", "ESNext"]
   },
-  "include": ["./src/pages/main.js", "./generate.js"]
+  "include": ["./src/static/term.js", "./generate.js"]
 }
