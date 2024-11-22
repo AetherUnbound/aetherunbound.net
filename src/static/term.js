@@ -30,9 +30,21 @@ const View = ({ onCommand }) => {
       const $promptInput = /** @type {HTMLSpanElement} */ (
         $prompt.querySelector(".prompt-input")
       );
+
+      const clickListener = () => {
+        $currentPrompt?.focus();
+      };
+      $promptInput.parentElement?.addEventListener("click", clickListener);
+
+      // Removes interactivity from this prompt. Should be called once this prompt is no longer the active one.
+      const lockPrompt = () => {
+        $promptInput.removeAttribute("contenteditable");
+        $promptInput.parentElement?.removeEventListener("click", clickListener);
+      };
+
       $promptInput.addEventListener("keydown", (ev) => {
         if (ev.ctrlKey && ev.key === "c") {
-          $promptInput.removeAttribute("contenteditable");
+          lockPrompt();
           this.prompt();
           return;
         }
@@ -40,7 +52,7 @@ const View = ({ onCommand }) => {
         if (ev.key === "Enter") {
           ev.preventDefault();
           onCommand($promptInput.innerText);
-          $promptInput.removeAttribute("contenteditable");
+          lockPrompt();
           this.prompt();
           return;
         }
