@@ -29,16 +29,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-      - name: Setup Node
-        uses: actions/setup-node@v2
-        with:
-          node-version: '23'
+      - name: Setup CI environment
+        uses: ./.github/actions/setup-env
       - name: Build site
-        run: | 
-          npm i
-          npm run generate
+        run: just generate
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

@@ -16,3 +16,8 @@
 
 1. `just install`
 2. `just generate`
+
+### Linting
+
+Run `just lint` to run `prettier` (and any future linting steps) on the project.
+For CI purposes, `just lint check` will return a non-zero exit code if there are any linting errors.

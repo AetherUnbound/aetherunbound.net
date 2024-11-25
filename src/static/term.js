@@ -78,7 +78,7 @@ const View = ({ onCommand }) => {
         await sleep(75);
       }
       $currentPrompt.dispatchEvent(
-        new KeyboardEvent("keydown", { key: "Enter" })
+        new KeyboardEvent("keydown", { key: "Enter" }),
       );
     },
   };
@@ -91,7 +91,7 @@ const files = (() => {
   );
   const fileMap = /** @type {HTMLElement[]} */ (
     Array.from($templateFiles.content.childNodes).filter(
-      (n) => !(n instanceof Text)
+      (n) => !(n instanceof Text),
     )
   ).reduce((prev, $el) => {
     return {
