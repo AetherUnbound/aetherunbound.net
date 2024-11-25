@@ -3,10 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "generate": "node ./generate.js",
-    "clean": "rm public/*",
     "serve": "http-server public/",
-    "watch": "npm run generate && onchange 'src/**/*' -- npm run generate",
+    "watch": "onchange 'src/**/*' -- just generate",
     "prettier": "prettier --write ./src/**/*"
   },
   "engines": {

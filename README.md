@@ -2,12 +2,17 @@
 
 ## Installation & Building
 
+### Prerequisites
+
+- [`just`](https://just.systems/)
+- [`node`](https://nodejs.org/en/) (see `just node-version` for which version to install)
+
 ### For development
 
-1. `npm install`
-2. `npm run watch` in one terminal, and `npm run serve` in another
+1. `just install`
+2. `just up`
 
 ### To build for publishing
 
-1. `npm install`
-2. `npm run generate`
+1. `just install`
+2. `just generate`
