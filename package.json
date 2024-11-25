@@ -9,6 +9,9 @@
     "watch": "npm run generate && onchange 'src/**/*' -- npm run generate",
     "prettier": "prettier --write ./src/**/*"
   },
+  "engines": {
+    "node": ">= 23.0.0"
+  },
   "author": "",
   "license": "ISC",
   "devDependencies": {
