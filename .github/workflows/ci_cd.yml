@@ -1,0 +1,28 @@
+name: Run CI & linting checks
+
+on:
+  # Runs on pushes targeting the default branch
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup CI environment
+        uses: ./.github/actions/setup-env
+      - name: Build site
+        run: just generate
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup CI environment
+        uses: ./.github/actions/setup-env
+      - name: Run linting
+        run: just lint

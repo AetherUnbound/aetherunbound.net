@@ -1,0 +1,22 @@
+name: aetherunbound/setup-env
+description: Set up the environment for CI/CD workflows
+
+runs:
+  using: "composite"
+  steps:
+    # Just
+    - name: Setup just
+      uses: taiki-e/install-action@v2
+      with:
+        tool: just
+
+    # Node
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version-file: "package.json"
+
+    # Install dependencies
+    - name: Install dependencies
+      shell: bash
+      run: just install
