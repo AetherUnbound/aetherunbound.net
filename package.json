@@ -5,7 +5,7 @@
   "scripts": {
     "serve": "http-server public/",
     "watch": "onchange 'src/**/*' -- just generate",
-    "prettier": "prettier --write ./src/**/*"
+    "prettier": "prettier ./src/**/*"
   },
   "engines": {
     "node": ">= 23.0.0"

@@ -25,4 +25,4 @@ jobs:
       - name: Setup CI environment
         uses: ./.github/actions/setup-env
       - name: Run linting
-        run: just lint
+        run: just lint check

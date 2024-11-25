@@ -45,5 +45,5 @@ up:
     (trap 'kill 0' INT; just watch & just serve)
 
 # Run prettier
-lint:
-    npm run prettier
+lint check="":
+    npm run prettier -- {{ if check == "" { "--write" } else { "--check" } }}
