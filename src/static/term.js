@@ -148,9 +148,17 @@ const view = View({
     }
   },
 });
+
+// if __name__ == "__main__":
 view.prompt();
-await view.animate("cat about.md");
-await view.animate("cat projects.md");
-await view.animate("cat pursuits.md");
-await sleep(100);
+
+// Skip the animation if the URL params include "skip"
+if (!window.location.search.includes("skip")) {
+  await view.animate("cat about.md");
+  await view.animate("cat projects.md");
+  await view.animate("cat pursuits.md");
+  await sleep(100);
+}
+
+// Allow scrolling after the initial animations
 view.preventScroll = false;
