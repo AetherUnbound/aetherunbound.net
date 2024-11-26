@@ -1,3 +1,19 @@
+/**
+ ░▄▀▄▀▀▀▀▄▀▄░░░░░░░░░
+ ░█░░░░░░░░▀▄░░░░░░▄░
+ █░░▀░░▀░░░░░▀▄▄░░█░█
+ █░▄░█▀░▄░░░░░░░▀▀░░█
+ █░░▀▀▀▀░░░░░░░░░░░░█
+ █░░░░░░░░░░░░░░░░░░█
+ █░░░░░░░░░░░░░░░░░░█
+ ░█░░▄▄░░▄▄▄▄░░▄▄░░█░
+ ░█░▄▀█░▄▀░░█░▄▀█░▄▀░
+ ░░▀░░░▀░░░░░▀░░░▀░░░
+
+ BARK! BARK! BARK!
+ I'm so dog-cited to see you here!
+*/
+
 /** @param {number} t */
 const sleep = (t) => new Promise((r) => setTimeout(r, t));
 
@@ -110,22 +126,7 @@ const view = View({
     switch (command) {
       case "":
         break;
-      case "whoami":
-        {
-          view.appendSpan("madison");
-        }
-        break;
-      case "ls":
-        {
-          const $list = document.createElement("ul");
-          Object.keys(files).forEach((file) => {
-            const $entry = document.createElement("li");
-            $entry.innerText = file;
-            $list.append($entry);
-          });
-          view.append($list);
-        }
-        break;
+
       case "cat":
         {
           if (argv.length === 1) {
@@ -142,6 +143,51 @@ const view = View({
           view.append(file);
         }
         break;
+
+      case "dog":
+        {
+          let bork = document.createElement("marquee");
+          bork.innerText = "BARK ".repeat(100);
+          bork.setAttribute("scrollamount", "25");
+          bork.setAttribute("class", "rainbow-text");
+          view.append(bork);
+        }
+        break;
+
+      case "ls":
+        {
+          const $list = document.createElement("ul");
+          Object.keys(files).forEach((file) => {
+            const $entry = document.createElement("li");
+            $entry.innerText = file;
+            $list.append($entry);
+          });
+          view.append($list);
+        }
+        break;
+
+      case "lsb_release":
+      case "uname":
+        {
+          view.appendSpan("pup!_OS");
+        }
+        break;
+
+      case "whoami":
+        {
+          let options = [
+            "Perhaps a better question is, who are you?",
+            "I'm just a dog on the internet.",
+            "A sense of self is not something this site can help you find.",
+            "I did not say this...I am not here.",
+            "Interesting question...try running `cat about.md` to find out!",
+          ];
+          view.appendSpan(
+            options[Math.floor(Math.random() * options.length)] || "",
+          );
+        }
+        break;
+
       default: {
         view.appendSpan(`Command not found: ${command}`);
       }
