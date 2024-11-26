@@ -111,24 +111,6 @@ const view = View({
       case "":
         break;
 
-      case "whoami":
-        {
-          view.appendSpan("madison");
-        }
-        break;
-
-      case "ls":
-        {
-          const $list = document.createElement("ul");
-          Object.keys(files).forEach((file) => {
-            const $entry = document.createElement("li");
-            $entry.innerText = file;
-            $list.append($entry);
-          });
-          view.append($list);
-        }
-        break;
-
       case "cat":
         {
           if (argv.length === 1) {
@@ -153,6 +135,24 @@ const view = View({
           bork.setAttribute("scrollamount", "25");
           bork.setAttribute("class", "rainbow-text");
           view.append(bork);
+        }
+        break;
+
+      case "ls":
+        {
+          const $list = document.createElement("ul");
+          Object.keys(files).forEach((file) => {
+            const $entry = document.createElement("li");
+            $entry.innerText = file;
+            $list.append($entry);
+          });
+          view.append($list);
+        }
+        break;
+
+      case "whoami":
+        {
+          view.appendSpan("madison");
         }
         break;
 
