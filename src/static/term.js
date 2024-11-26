@@ -110,11 +110,13 @@ const view = View({
     switch (command) {
       case "":
         break;
+
       case "whoami":
         {
           view.appendSpan("madison");
         }
         break;
+
       case "ls":
         {
           const $list = document.createElement("ul");
@@ -126,6 +128,7 @@ const view = View({
           view.append($list);
         }
         break;
+
       case "cat":
         {
           if (argv.length === 1) {
@@ -142,13 +145,14 @@ const view = View({
           view.append(file);
         }
         break;
+
       case "dog":
         {
-          let bork = document.createElement("marquee")
-          bork.innerText = "BARK ".repeat(100)
-          bork.setAttribute("scrollamount", "25")
-          bork.style["font-size"] = "2em"
-          view.append(bork)
+          let bork = document.createElement("marquee");
+          bork.innerText = "BARK ".repeat(100);
+          bork.setAttribute("scrollamount", "25");
+          bork.setAttribute("class", "rainbow-text");
+          view.append(bork);
         }
         break;
 
