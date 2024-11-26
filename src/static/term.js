@@ -142,6 +142,16 @@ const view = View({
           view.append(file);
         }
         break;
+      case "dog":
+        {
+          let bork = document.createElement("marquee")
+          bork.innerText = "BARK ".repeat(100)
+          bork.setAttribute("scrollamount", "25")
+          bork.style["font-size"] = "2em"
+          view.append(bork)
+        }
+        break;
+
       default: {
         view.appendSpan(`Command not found: ${command}`);
       }
