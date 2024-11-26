@@ -176,13 +176,15 @@ const view = View({
       case "whoami":
         {
           let options = [
-              "Perhaps a better question is, who are you?",
-              "I'm just a dog on the internet.",
-              "A sense of self is not something this site can help you find.",
-              "I did not say this...I am not here.",
-              "Interesting question...try running `cat about.md` to find out!"
-          ]
-          view.appendSpan(options[Math.floor(Math.random() * options.length)] || "");
+            "Perhaps a better question is, who are you?",
+            "I'm just a dog on the internet.",
+            "A sense of self is not something this site can help you find.",
+            "I did not say this...I am not here.",
+            "Interesting question...try running `cat about.md` to find out!",
+          ];
+          view.appendSpan(
+            options[Math.floor(Math.random() * options.length)] || "",
+          );
         }
         break;
 
