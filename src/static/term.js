@@ -27,6 +27,21 @@ const View = ({ onCommand }) => {
   );
   let $currentPrompt = /** @type {HTMLSpanElement | null} */ (null);
 
+  // Add document click listener to focus terminal input unless selecting text
+  document.addEventListener("click", (event) => {
+    if ($currentPrompt) {
+      // Check if user is selecting text (has a selection)
+      const selection = window.getSelection();
+      if (selection && selection.toString().length > 0) {
+        // User is selecting text, don't interfere with the selection
+        return;
+      }
+
+      // Otherwise, focus the current prompt
+      $currentPrompt.focus();
+    }
+  });
+
   return {
     preventScroll: true,
     /** @param {HTMLElement} $el */
