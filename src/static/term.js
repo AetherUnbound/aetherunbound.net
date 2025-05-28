@@ -70,6 +70,14 @@ const View = ({ onCommand }) => {
           return;
         }
 
+        // Add CTRL+D handler to trigger exit command
+        if (ev.ctrlKey && ev.key === "d") {
+          ev.preventDefault(); // Prevent the browser's default behavior
+          lockPrompt();
+          onCommand("exit"); // Execute the exit command
+          return;
+        }
+
         if (ev.key === "Enter") {
           ev.preventDefault();
           onCommand($promptInput.innerText);
