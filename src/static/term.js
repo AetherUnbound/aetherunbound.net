@@ -122,7 +122,7 @@ const View = ({ onCommand }) => {
         await sleep(75);
       }
       $currentPrompt.dispatchEvent(
-        new KeyboardEvent("keydown", { key: "Enter" }),
+        new KeyboardEvent("keydown", { key: "Enter" })
       );
     },
   };
@@ -135,7 +135,7 @@ const files = (() => {
   );
   const fileMap = /** @type {HTMLElement[]} */ (
     Array.from($templateFiles.content.childNodes).filter(
-      (n) => !(n instanceof Text),
+      (n) => !(n instanceof Text)
     )
   ).reduce((prev, $el) => {
     return {
@@ -184,7 +184,10 @@ const view = View({
 
       case "ls":
         {
-          const showHidden = argv.includes("-a") || argv.includes("-la") || argv.includes("--all");
+          const showHidden =
+            argv.includes("-a") ||
+            argv.includes("-la") ||
+            argv.includes("--all");
 
           // Create a container div with terminal-like styling
           const $container = document.createElement("div");
@@ -196,6 +199,10 @@ const view = View({
           $container.style.marginBottom = "0.5rem";
 
           // Helper function to style a file entry based on its name
+          /**
+           * @param {string} fileName - The name of the file.
+           * @param {HTMLElement} $element - The element to style.
+           */
           const styleFileEntry = (fileName, $element) => {
             if (fileName.includes("/")) {
               $element.style.color = "#5f5fff"; // Blue for directories
@@ -208,9 +215,9 @@ const view = View({
           };
 
           // Get all available files
-          const visibleFiles = Object.keys(files).filter(file =>
-            !file.startsWith(".") && !file.includes("/")
-          ).sort();
+          const visibleFiles = Object.keys(files)
+            .filter((file) => !file.startsWith(".") && !file.includes("/"))
+            .sort();
 
           // Display regular files (non-hidden, non-directory)
           visibleFiles.forEach((file) => {
@@ -223,9 +230,9 @@ const view = View({
           // Easter egg: show hidden source files and directories when -a flag is used
           if (showHidden) {
             // Show hidden regular files from the files object
-            const hiddenRegularFiles = Object.keys(files).filter(file =>
-              file.startsWith(".") || file.includes("/")
-            ).sort();
+            const hiddenRegularFiles = Object.keys(files)
+              .filter((file) => file.startsWith(".") || file.includes("/"))
+              .sort();
 
             hiddenRegularFiles.forEach((file) => {
               const $entry = document.createElement("div");
@@ -244,7 +251,7 @@ const view = View({
               ".README.md",
               "src/index.html",
               "src/term.js",
-              "src/style.css"
+              "src/style.css",
             ];
 
             hiddenSourceFiles.forEach((file) => {
@@ -279,7 +286,7 @@ const view = View({
             "Interesting question...try running `cat about.md` to find out!",
           ];
           view.appendSpan(
-            options[Math.floor(Math.random() * options.length)] || "",
+            options[Math.floor(Math.random() * options.length)] || ""
           );
         }
         break;
