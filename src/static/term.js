@@ -184,13 +184,56 @@ const view = View({
 
       case "ls":
         {
-          const $list = document.createElement("ul");
-          Object.keys(files).forEach((file) => {
-            const $entry = document.createElement("li");
+          const showHidden = argv.includes("-a") || argv.includes("-la") || argv.includes("--all");
+
+          // Create a container div with terminal-like styling
+          const $container = document.createElement("div");
+          $container.style.display = "flex";
+          $container.style.flexWrap = "wrap";
+          $container.style.gap = "1rem 1.5rem";
+          $container.style.fontFamily = "monospace";
+          $container.style.marginTop = "0.5rem";
+          $container.style.marginBottom = "0.5rem";
+
+          // Regular files
+          const visibleFiles = Object.keys(files).sort();
+          visibleFiles.forEach((file) => {
+            const $entry = document.createElement("div");
             $entry.innerText = file;
-            $list.append($entry);
+            $entry.style.color = "#5ff";  // Cyan for regular files, simulating ls coloring
+            $container.append($entry);
           });
-          view.append($list);
+
+          // Easter egg: show source files when -a flag is used
+          if (showHidden) {
+            const hiddenFiles = [
+              ".gitignore",
+              ".generate.js",
+              ".package.json",
+              ".justfile",
+              ".tsconfig.json",
+              ".README.md",
+              "src/",
+              "public/"
+            ];
+
+            hiddenFiles.forEach((file) => {
+              const $entry = document.createElement("div");
+              $entry.innerText = file;
+
+              // Style directories differently
+              if (file.endsWith("/")) {
+                $entry.style.color = "#5f5fff"; // Blue for directories
+                $entry.style.fontWeight = "bold";
+              } else {
+                $entry.style.color = "#777"; // Gray for hidden files
+              }
+
+              $container.append($entry);
+            });
+          }
+
+          view.append($container);
         }
         break;
 
