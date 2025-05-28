@@ -48,11 +48,16 @@ const View = ({ onCommand }) => {
     append: function ($el) {
       $terminal.append($el);
     },
-    /** @param {string} content */
+    /**
+     * Appends a span with the given content to the terminal.
+     * @param {string} content
+     * @returns {HTMLSpanElement}
+     */
     appendSpan: function (content) {
       const $span = document.createElement("span");
       $span.innerText = content;
       this.append($span);
+      return $span;
     },
     prompt: function () {
       const $prompt = /** @type {HTMLElement} */ (
@@ -77,6 +82,14 @@ const View = ({ onCommand }) => {
         if (ev.ctrlKey && ev.key === "c") {
           lockPrompt();
           this.prompt();
+          return;
+        }
+
+        // Add CTRL+D handler to trigger exit command
+        if (ev.ctrlKey && ev.key === "d") {
+          ev.preventDefault(); // Prevent the browser's default behavior
+          lockPrompt();
+          onCommand("exit"); // Execute the exit command
           return;
         }
 
@@ -200,6 +213,33 @@ const view = View({
           view.appendSpan(
             options[Math.floor(Math.random() * options.length)] || "",
           );
+        }
+        break;
+
+      case "exit":
+        {
+          const goodbyeMessages = [
+            "Logging arf!",
+            "Session terminated...but I'll miss you 🥺",
+            "Goodbye, friend! 🐾",
+          ];
+          const message =
+            goodbyeMessages[
+              Math.floor(Math.random() * goodbyeMessages.length)
+            ] || "Goodbye!";
+
+          // Create styled goodbye message
+          const $goodbye = view.appendSpan(message);
+          $goodbye.style.fontWeight = "bold";
+          view.append(document.createElement("br"));
+          view.append(document.createElement("br"));
+          // A-la 3 body problem ^x^
+          const $logoff = view.appendSpan("We invite you to log on again.");
+          $logoff.style.color = "#8BC34A";
+          $logoff.style.fontStyle = "italic";
+
+          // Prevent new prompt from appearing by replacing the prompt function
+          view.prompt = () => {};
         }
         break;
 
