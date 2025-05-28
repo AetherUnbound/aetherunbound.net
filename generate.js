@@ -105,7 +105,15 @@ marked.setOptions({
   const html = readFileSync(joinPath(SOURCE_PATH, "index.html")).toString();
 
   // Add highlight.js CSS and JS to the HTML
-  const highlightCSS = '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css">';
+  const highlightCSS = `<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css">
+  <style>
+    /* Adjust highlight.js background to match site's black background */
+    .hljs, pre code.hljs {
+      background-color: #111 !important;
+      padding: 1em;
+      border-radius: 4px;
+    }
+  </style>`;
   const highlightJS = `
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
   <script>
