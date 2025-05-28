@@ -204,14 +204,17 @@ const view = View({
       case "exit":
         {
           const goodbyeMessages = [
-              "Logging arf!",
-              "Session terminated...but I'll miss you 🥺",
-              "Goodbye, friend! 🐾",
+            "Logging arf!",
+            "Session terminated...but I'll miss you 🥺",
+            "Goodbye, friend! 🐾",
           ];
-          const message = goodbyeMessages[Math.floor(Math.random() * goodbyeMessages.length)] || "Goodbye!";
+          const message =
+            goodbyeMessages[
+              Math.floor(Math.random() * goodbyeMessages.length)
+            ] || "Goodbye!";
 
           // Create styled goodbye message
-          const $goodbye = view.appendSpan(message)
+          const $goodbye = view.appendSpan(message);
           $goodbye.style.fontWeight = "bold";
           view.append(document.createElement("br"));
           view.append(document.createElement("br"));
@@ -221,7 +224,7 @@ const view = View({
           $logoff.style.fontStyle = "italic";
 
           // Prevent new prompt from appearing by replacing the prompt function
-          view.prompt = () => {}
+          view.prompt = () => {};
         }
         break;
 
