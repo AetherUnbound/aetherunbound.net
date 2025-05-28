@@ -195,41 +195,66 @@ const view = View({
           $container.style.marginTop = "0.5rem";
           $container.style.marginBottom = "0.5rem";
 
-          // Regular files
-          const visibleFiles = Object.keys(files).sort();
+          // Helper function to style a file entry based on its name
+          const styleFileEntry = (fileName, $element) => {
+            if (fileName.includes("/")) {
+              $element.style.color = "#5f5fff"; // Blue for directories
+              $element.style.fontWeight = "bold";
+            } else if (fileName.startsWith(".")) {
+              $element.style.color = "#777"; // Gray for hidden files
+            } else {
+              $element.style.color = "#5ff"; // Cyan for regular files
+            }
+          };
+
+          // Get all available files
+          const visibleFiles = Object.keys(files).filter(file =>
+            !file.startsWith(".") && !file.includes("/")
+          ).sort();
+
+          // Display regular files (non-hidden, non-directory)
           visibleFiles.forEach((file) => {
             const $entry = document.createElement("div");
             $entry.innerText = file;
-            $entry.style.color = "#5ff";  // Cyan for regular files, simulating ls coloring
+            styleFileEntry(file, $entry);
             $container.append($entry);
           });
 
-          // Easter egg: show source files when -a flag is used
+          // Easter egg: show hidden source files and directories when -a flag is used
           if (showHidden) {
-            const hiddenFiles = [
+            // Show hidden regular files from the files object
+            const hiddenRegularFiles = Object.keys(files).filter(file =>
+              file.startsWith(".") || file.includes("/")
+            ).sort();
+
+            hiddenRegularFiles.forEach((file) => {
+              const $entry = document.createElement("div");
+              $entry.innerText = file;
+              styleFileEntry(file, $entry);
+              $container.append($entry);
+            });
+
+            // Show additional hidden source files as easter egg
+            const hiddenSourceFiles = [
               ".gitignore",
               ".generate.js",
               ".package.json",
               ".justfile",
               ".tsconfig.json",
               ".README.md",
-              "src/",
-              "public/"
+              "src/index.html",
+              "src/term.js",
+              "src/style.css"
             ];
 
-            hiddenFiles.forEach((file) => {
-              const $entry = document.createElement("div");
-              $entry.innerText = file;
-
-              // Style directories differently
-              if (file.endsWith("/")) {
-                $entry.style.color = "#5f5fff"; // Blue for directories
-                $entry.style.fontWeight = "bold";
-              } else {
-                $entry.style.color = "#777"; // Gray for hidden files
+            hiddenSourceFiles.forEach((file) => {
+              // Only show if not already in the files object
+              if (!Object.keys(files).includes(file)) {
+                const $entry = document.createElement("div");
+                $entry.innerText = file;
+                styleFileEntry(file, $entry);
+                $container.append($entry);
               }
-
-              $container.append($entry);
             });
           }
 
