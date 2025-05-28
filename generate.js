@@ -76,14 +76,25 @@ marked.setOptions({
       // Process content based on file extension
       let processedContent;
       if (['js', 'css', 'html', 'json'].includes(extension)) {
-        // Use syntax highlighting for code files
-        processedContent = `<pre><code class="language-${extension}">${content}</code></pre>`;
+        // Escape HTML characters to prevent rendering issues
+        const escapedContent = content
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;');
+
+        // Apply syntax highlighting directly with highlight.js
+        const highlightedCode = hljs.highlight(escapedContent, { language: extension }).value;
+        processedContent = `<pre class="hljs"><code class="language-${extension}">${highlightedCode}</code></pre>`;
       } else if (extension === 'md') {
         // Parse markdown
         processedContent = marked.parse(content, { async: false });
       } else {
-        // Default handling for other file types
-        processedContent = `<pre>${content}</pre>`;
+        // Default handling for other file types - escape HTML
+        const escapedContent = content
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;');
+        processedContent = `<pre>${escapedContent}</pre>`;
       }
 
       return `<div data-name="${file.name}">
