@@ -73,28 +73,27 @@ marked.setOptions({
       const content = readFileSync(file.path).toString();
       const extension = file.name.split('.').pop() || "";
 
+      // HTML escape function
+      const escapeHTML = (str) => {
+        return str
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#039;');
+      };
+
       // Process content based on file extension
       let processedContent;
       if (['js', 'css', 'html', 'json'].includes(extension)) {
-        // Escape HTML characters to prevent rendering issues
-        const escapedContent = content
-          .replace(/&/g, '&amp;')
-          .replace(/</g, '&lt;')
-          .replace(/>/g, '&gt;');
-
-        // Apply syntax highlighting directly with highlight.js
-        const highlightedCode = hljs.highlight(escapedContent, { language: extension }).value;
-        processedContent = `<pre class="hljs"><code class="language-${extension}">${highlightedCode}</code></pre>`;
+        // Just use a pre tag with code and proper classes - highlighting will be done by client-side highlight.js
+        processedContent = `<pre><code class="language-${extension}">${escapeHTML(content)}</code></pre>`;
       } else if (extension === 'md') {
         // Parse markdown
         processedContent = marked.parse(content, { async: false });
       } else {
-        // Default handling for other file types - escape HTML
-        const escapedContent = content
-          .replace(/&/g, '&amp;')
-          .replace(/</g, '&lt;')
-          .replace(/>/g, '&gt;');
-        processedContent = `<pre>${escapedContent}</pre>`;
+        // Default handling for other file types
+        processedContent = `<pre>${escapeHTML(content)}</pre>`;
       }
 
       return `<div data-name="${file.name}">
@@ -105,12 +104,52 @@ marked.setOptions({
   const allFiles = [...files, ...sourceFiles].join("\n");
   const html = readFileSync(joinPath(SOURCE_PATH, "index.html")).toString();
 
-  // Add highlight.js CSS to the HTML
+  // Add highlight.js CSS and JS to the HTML
   const highlightCSS = '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css">';
-  const headEnd = '</head>';
-  const composedWithHighlight = html.replace(headEnd, `${highlightCSS}\n  ${headEnd}`);
+  const highlightJS = `
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+  <script>
+    // Initialize highlight.js when the DOM is fully loaded
+    document.addEventListener('DOMContentLoaded', (event) => {
+      // Initial highlighting
+      document.querySelectorAll('pre code').forEach((block) => {
+        hljs.highlightElement(block);
+      });
+      
+      // Set up a MutationObserver to highlight code that appears later (via terminal commands)
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          if (mutation.type === 'childList') {
+            mutation.addedNodes.forEach((node) => {
+              if (node.nodeType === 1) { // Element node
+                const codeBlocks = node.querySelectorAll('pre code');
+                if (codeBlocks.length > 0) {
+                  codeBlocks.forEach((block) => {
+                    hljs.highlightElement(block);
+                  });
+                }
+              }
+            });
+          }
+        });
+      });
+      
+      // Start observing the terminal for new code blocks
+      observer.observe(document.getElementById('terminal'), { 
+        childList: true, 
+        subtree: true 
+      });
+    });
+  </script>`;
 
-  const composed = composedWithHighlight.replace(`<!--files-->`, allFiles);
+  const headEnd = '</head>';
+  const bodyEnd = '</body>';
+
+  // Add CSS to head and JS right before body closing tag
+  let composedHtml = html.replace(headEnd, `${highlightCSS}\n  ${headEnd}`);
+  composedHtml = composedHtml.replace(bodyEnd, `${highlightJS}\n  ${bodyEnd}`);
+
+  const composed = composedHtml.replace(`<!--files-->`, allFiles);
   writeFileSync(joinPath(OUTPUT_PATH, "index.html"), composed);
 }
 
