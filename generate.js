@@ -56,11 +56,7 @@ marked.setOptions({
 
   // Add hidden source files for the easter egg
   const hiddenFiles = [
-    { name: ".gitignore", path: ".gitignore" },
     { name: ".generate.js", path: "generate.js" },
-    { name: ".package.json", path: "package.json" },
-    { name: ".justfile", path: "justfile" },
-    { name: ".tsconfig.json", path: "tsconfig.json" },
     { name: ".README.md", path: "README.md" },
     { name: "src/index.html", path: "src/index.html" },
     { name: "src/term.js", path: "src/static/term.js" },
@@ -105,60 +101,7 @@ marked.setOptions({
   const allFiles = [...files, ...sourceFiles].join("\n");
   const html = readFileSync(joinPath(SOURCE_PATH, "index.html")).toString();
 
-  // Add highlight.js CSS and JS to the HTML
-  const highlightCSS = `<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css">
-  <style>
-    /* Adjust highlight.js background to match site's black background */
-    .hljs, pre code.hljs {
-      background-color: #111 !important;
-      padding: 1em;
-      border-radius: 4px;
-    }
-  </style>`;
-  const highlightJS = `
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
-  <script>
-    // Initialize highlight.js when the DOM is fully loaded
-    document.addEventListener('DOMContentLoaded', (event) => {
-      // Initial highlighting
-      document.querySelectorAll('pre code').forEach((block) => {
-        hljs.highlightElement(block);
-      });
-      
-      // Set up a MutationObserver to highlight code that appears later (via terminal commands)
-      const observer = new MutationObserver((mutations) => {
-        mutations.forEach((mutation) => {
-          if (mutation.type === 'childList') {
-            mutation.addedNodes.forEach((node) => {
-              if (node.nodeType === 1) { // Element node
-                const codeBlocks = node.querySelectorAll('pre code');
-                if (codeBlocks.length > 0) {
-                  codeBlocks.forEach((block) => {
-                    hljs.highlightElement(block);
-                  });
-                }
-              }
-            });
-          }
-        });
-      });
-      
-      // Start observing the terminal for new code blocks
-      observer.observe(document.getElementById('terminal'), { 
-        childList: true, 
-        subtree: true 
-      });
-    });
-  </script>`;
-
-  const headEnd = "</head>";
-  const bodyEnd = "</body>";
-
-  // Add CSS to head and JS right before body closing tag
-  let composedHtml = html.replace(headEnd, `${highlightCSS}\n  ${headEnd}`);
-  composedHtml = composedHtml.replace(bodyEnd, `${highlightJS}\n  ${bodyEnd}`);
-
-  const composed = composedHtml.replace(`<!--files-->`, allFiles);
+  const composed = html.replace(`<!--files-->`, allFiles);
   writeFileSync(joinPath(OUTPUT_PATH, "index.html"), composed);
 }
 
