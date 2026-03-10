@@ -254,7 +254,10 @@ const view = View({
 view.prompt();
 
 // Skip the animation if the URL params include "skip"
-if (!window.location.search.includes("skip")) {
+if (window.location.search.startsWith("?post=")) {
+  const postName = window.location.search.replace(`?post=`, "");
+  await view.animate(`cat ${postName}.md`);
+} else if (!window.location.search.includes("?skip")) {
   await view.animate("cat about.md");
   await view.animate("cat projects.md");
   await view.animate("cat pursuits.md");
