@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "serve": "http-server public/",
+    "serve": "http-server -c-1 public/",
     "watch": "onchange 'src/**/*' -- just generate",
     "prettier": "prettier ./src/**/*"
   },
