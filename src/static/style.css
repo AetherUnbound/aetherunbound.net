@@ -99,6 +99,10 @@ a.prompt-link {
   outline: none;
 }
 
+.terminal-ls {
+  list-style-type: none;
+}
+
 .mastodon-verify {
   height: 0px;
   width: 0px;
