@@ -48,6 +48,14 @@ em {
   color: var(--accent-color);
 }
 
+p:has(img) {
+  text-align: center;
+}
+
+img {
+  max-width: 50%;
+}
+
 section {
   margin-bottom: 25px;
 }
