@@ -29,6 +29,54 @@
       href="./images/apple-touch-icon.png"
     />
     <link rel="manifest" href="./images/site.webmanifest" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css"
+    />
+    <style>
+      /* Adjust highlight.js background to match site's black background */
+      .hljs,
+      pre code.hljs {
+        background-color: #111 !important;
+        padding: 1em;
+        border-radius: 4px;
+      }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+    <script>
+      // Initialize highlight.js when the DOM is fully loaded
+      document.addEventListener("DOMContentLoaded", (event) => {
+        // Initial highlighting
+        document.querySelectorAll("pre code").forEach((block) => {
+          hljs.highlightElement(block);
+        });
+
+        // Set up a MutationObserver to highlight code that appears later (via terminal commands)
+        const observer = new MutationObserver((mutations) => {
+          mutations.forEach((mutation) => {
+            if (mutation.type === "childList") {
+              mutation.addedNodes.forEach((node) => {
+                if (node.nodeType === 1) {
+                  // Element node
+                  const codeBlocks = node.querySelectorAll("pre code");
+                  if (codeBlocks.length > 0) {
+                    codeBlocks.forEach((block) => {
+                      hljs.highlightElement(block);
+                    });
+                  }
+                }
+              });
+            }
+          });
+        });
+
+        // Start observing the terminal for new code blocks
+        observer.observe(document.getElementById("terminal"), {
+          childList: true,
+          subtree: true,
+        });
+      });
+    </script>
   </head>
 
   <body>

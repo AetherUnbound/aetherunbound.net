@@ -122,7 +122,7 @@ const View = ({ onCommand }) => {
         await sleep(75);
       }
       $currentPrompt.dispatchEvent(
-        new KeyboardEvent("keydown", { key: "Enter" }),
+        new KeyboardEvent("keydown", { key: "Enter" })
       );
     },
   };
@@ -135,7 +135,7 @@ const files = (() => {
   );
   const fileMap = /** @type {HTMLElement[]} */ (
     Array.from($templateFiles.content.childNodes).filter(
-      (n) => !(n instanceof Text),
+      (n) => !(n instanceof Text)
     )
   ).reduce((prev, $el) => {
     return {
@@ -184,13 +184,88 @@ const view = View({
 
       case "ls":
         {
-          const $list = document.createElement("ul");
-          Object.keys(files).forEach((file) => {
-            const $entry = document.createElement("li");
+          const showHidden =
+            argv.includes("-a") ||
+            argv.includes("-la") ||
+            argv.includes("--all");
+
+          // Create a container div with terminal-like styling
+          const $container = document.createElement("div");
+          $container.style.display = "flex";
+          $container.style.flexWrap = "wrap";
+          $container.style.gap = "1rem 1.5rem";
+          $container.style.fontFamily = "monospace";
+          $container.style.marginTop = "0.5rem";
+          $container.style.marginBottom = "0.5rem";
+
+          // Helper function to style a file entry based on its name
+          /**
+           * @param {string} fileName - The name of the file.
+           * @param {HTMLElement} $element - The element to style.
+           */
+          const styleFileEntry = (fileName, $element) => {
+            if (fileName.includes("/")) {
+              $element.style.color = "#5f5fff"; // Blue for directories
+              $element.style.fontWeight = "bold";
+            } else if (fileName.startsWith(".")) {
+              $element.style.color = "#777"; // Gray for hidden files
+            } else {
+              $element.style.color = "#5ff"; // Cyan for regular files
+            }
+          };
+
+          // Get all available files
+          const visibleFiles = Object.keys(files)
+            .filter((file) => !file.startsWith(".") && !file.includes("/"))
+            .sort();
+
+          // Display regular files (non-hidden, non-directory)
+          visibleFiles.forEach((file) => {
+            const $entry = document.createElement("div");
             $entry.innerText = file;
-            $list.append($entry);
+            styleFileEntry(file, $entry);
+            $container.append($entry);
           });
-          view.append($list);
+
+          // Easter egg: show hidden source files and directories when -a flag is used
+          if (showHidden) {
+            // Show hidden regular files from the files object
+            const hiddenRegularFiles = Object.keys(files)
+              .filter((file) => file.startsWith(".") || file.includes("/"))
+              .sort();
+
+            hiddenRegularFiles.forEach((file) => {
+              const $entry = document.createElement("div");
+              $entry.innerText = file;
+              styleFileEntry(file, $entry);
+              $container.append($entry);
+            });
+
+            // Show additional hidden source files as easter egg
+            const hiddenSourceFiles = [
+              ".gitignore",
+              ".generate.js",
+              ".package.json",
+              ".justfile",
+              ".tsconfig.json",
+              ".README.md",
+              "src/index.html",
+              "src/term.js",
+              "src/style.css",
+            ];
+
+            hiddenSourceFiles.forEach((file) => {
+              // Only show if not already in the files object
+              if (!Object.keys(files).includes(file)) {
+                const $entry = document.createElement("div");
+                $entry.innerText = file;
+                styleFileEntry(file, $entry);
+                $container.append($entry);
+              }
+            });
+          }
+
+          view.append($container);
         }
         break;
 
@@ -211,7 +286,7 @@ const view = View({
             "Interesting question...try running `cat about.md` to find out!",
           ];
           view.appendSpan(
-            options[Math.floor(Math.random() * options.length)] || "",
+            options[Math.floor(Math.random() * options.length)] || ""
           );
         }
         break;

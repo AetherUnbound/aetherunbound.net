@@ -5,15 +5,27 @@ import {
   writeFileSync,
   rmSync,
   mkdirSync,
+  existsSync,
 } from "fs";
 import { join as joinPath } from "path";
 import { marked } from "marked";
+import hljs from "highlight.js";
 
 const SOURCE_PATH = "src/";
 const OUTPUT_PATH = "public/"; // This value is hard-coded rather than exposed in config because it is used by package.json scripts as well.
 
 const FILES_DIR = "files";
 const STATIC_DIR = "static";
+
+// Setup syntax highlighting with marked
+marked.setOptions({
+  // @ts-ignore - The marked types don't include the highlight option but it's supported
+  highlight: function (code, lang) {
+    const language = hljs.getLanguage(lang) ? lang : "plaintext";
+    return hljs.highlight(code, { language }).value;
+  },
+  langPrefix: "hljs language-", // highlight.js css expects a top-level 'hljs' class
+});
 
 // Clear existing public directory
 {
@@ -40,10 +52,56 @@ const STATIC_DIR = "static";
         `<div data-name="${filename}">
   ${marked.parse(content, { async: false })}
 </div>`
-    )
-    .join("\n");
+    );
+
+  // Add hidden source files for the easter egg
+  const hiddenFiles = [
+    { name: ".generate.js", path: "generate.js" },
+    { name: ".README.md", path: "README.md" },
+    { name: "src/index.html", path: "src/index.html" },
+    { name: "src/term.js", path: "src/static/term.js" },
+    { name: "src/style.css", path: "src/static/style.css" },
+  ];
+
+  const sourceFiles = hiddenFiles
+    .filter((file) => existsSync(file.path))
+    .map((file) => {
+      const content = readFileSync(file.path).toString();
+      const extension = file.name.split(".").pop() || "";
+
+      // HTML escape function
+      /** @param {string} str */
+      const escapeHTML = (str) => {
+        return str
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+      };
+
+      // Process content based on file extension
+      let processedContent;
+      if (["js", "css", "html", "json"].includes(extension)) {
+        // Just use a pre tag with code and proper classes - highlighting will be done by client-side highlight.js
+        processedContent = `<pre><code class="language-${extension}">${escapeHTML(content)}</code></pre>`;
+      } else if (extension === "md") {
+        // Parse markdown
+        processedContent = marked.parse(content, { async: false });
+      } else {
+        // Default handling for other file types
+        processedContent = `<pre>${escapeHTML(content)}</pre>`;
+      }
+
+      return `<div data-name="${file.name}">
+  ${processedContent}
+</div>`;
+    });
+
+  const allFiles = [...files, ...sourceFiles].join("\n");
   const html = readFileSync(joinPath(SOURCE_PATH, "index.html")).toString();
-  const composed = html.replace(`<!--files-->`, files);
+
+  const composed = html.replace(`<!--files-->`, allFiles);
   writeFileSync(joinPath(OUTPUT_PATH, "index.html"), composed);
 }
 
