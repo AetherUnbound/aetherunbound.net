@@ -28,7 +28,7 @@ const STATIC_DIR = "static";
 // Compose HTML
 {
   // Turn files into embeddable markup to be exposed as virtual "files" in the terminal.
-  const files = readdirSync(joinPath(SOURCE_PATH, FILES_DIR), {
+  const fileEntries = readdirSync(joinPath(SOURCE_PATH, FILES_DIR), {
     recursive: true,
   })
     .filter(
@@ -40,12 +40,14 @@ const STATIC_DIR = "static";
     .map(
       (filepath) =>
         /** @type {[string, string]} */ ([
-          filepath,
+          filepath.toString(),
           readFileSync(
             joinPath(SOURCE_PATH, FILES_DIR, filepath.toString()),
           ).toString(),
         ]),
-    )
+    );
+
+  const filesHtml = fileEntries
     .map(
       ([filename, content]) =>
         `<div data-name="${filename}">
@@ -53,9 +55,31 @@ const STATIC_DIR = "static";
 </div>`,
     )
     .join("\n");
-  const html = readFileSync(joinPath(SOURCE_PATH, "index.html")).toString();
-  const composed = html.replace(`<!--files-->`, files);
-  writeFileSync(joinPath(OUTPUT_PATH, "index.html"), composed);
+
+  const template = readFileSync(joinPath(SOURCE_PATH, "index.html")).toString();
+  const withFiles = template.replace(`<!--files-->`, filesHtml);
+
+  // Main index — no pre-rendered post content
+  writeFileSync(
+    joinPath(OUTPUT_PATH, "index.html"),
+    withFiles.replace(`<!--post-content-->`, ""),
+  );
+
+  // Generate a static HTML page for each blog post
+  const blogEntries = fileEntries.filter(([filename]) =>
+    filename.startsWith("blog/"),
+  );
+  if (blogEntries.length > 0) {
+    mkdirSync(joinPath(OUTPUT_PATH, "blog"), { recursive: true });
+    for (const [filename, content] of blogEntries) {
+      const slug = filename.replace(/^blog\//, "").replace(/\.md$/, "");
+      const postHtml = marked.parse(content, { async: false });
+      writeFileSync(
+        joinPath(OUTPUT_PATH, "blog", `${slug}.html`),
+        withFiles.replace(`<!--post-content-->`, postHtml),
+      );
+    }
+  }
 }
 
 // Copy static files to root of output dir
