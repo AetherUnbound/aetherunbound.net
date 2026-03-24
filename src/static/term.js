@@ -146,6 +146,9 @@ const files = (() => {
   return fileMap;
 })();
 
+/** @type {"/" | "blog"} */
+let pwd = "/";
+
 const view = View({
   onCommand: (input) => {
     const argv = input.split(" ");
@@ -161,7 +164,8 @@ const view = View({
             view.appendSpan("You're a kitty!");
             break;
           }
-          const file = files[argv[1] || ""];
+          const file =
+            pwd === "blog" ? files[`blog/${argv[1]}`] : files[argv[1] || ""];
 
           if (!file) {
             view.appendSpan(`File not found: ${argv[1]}`);
@@ -185,7 +189,19 @@ const view = View({
       case "ls":
         {
           const $list = document.createElement("ul");
-          Object.keys(files).forEach((file) => {
+          $list.className = "terminal-ls";
+          const filesList =
+            pwd === "blog" || (pwd === "/" && argv[1] === "blog")
+              ? Object.keys(files)
+                  .filter((file) => file.startsWith("blog/"))
+                  .map((file) => file.replace("blog/", ""))
+              : [
+                  ...Object.keys(files).filter(
+                    (file) => !file.startsWith("blog/"),
+                  ),
+                  "blog/",
+                ];
+          filesList.forEach((file) => {
             const $entry = document.createElement("li");
             $entry.innerText = file;
             $list.append($entry);
@@ -193,6 +209,24 @@ const view = View({
           view.append($list);
         }
         break;
+      case "pwd": {
+        view.appendSpan(pwd);
+        break;
+      }
+      case "cd": {
+        console.log(argv);
+        if (argv.length === 1) {
+          pwd = "/";
+        } else if (pwd === "/" && argv[1] === "blog") {
+          pwd = "blog";
+        } else if (argv[1] === "/" || (pwd === "blog" && argv[1] === "..")) {
+          pwd = "/";
+        } else {
+          view.appendSpan(`cd: no such file or directory: ${argv[1]}`);
+        }
+
+        break;
+      }
 
       case "lsb_release":
       case "uname":
@@ -256,7 +290,7 @@ view.prompt();
 // Skip the animation if the URL params include "skip"
 if (window.location.search.startsWith("?post=")) {
   const postName = window.location.search.replace(`?post=`, "");
-  await view.animate(`cat ${postName}.md`);
+  await view.animate(`cat blog/${postName}.md`);
 } else if (!window.location.search.includes("?skip")) {
   await view.animate("cat about.md");
   await view.animate("cat projects.md");

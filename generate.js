@@ -5,6 +5,7 @@ import {
   writeFileSync,
   rmSync,
   mkdirSync,
+  statSync,
 } from "fs";
 import { join as joinPath } from "path";
 import { marked } from "marked";
@@ -27,19 +28,29 @@ const STATIC_DIR = "static";
 // Compose HTML
 {
   // Turn files into embeddable markup to be exposed as virtual "files" in the terminal.
-  const files = readdirSync(joinPath(SOURCE_PATH, FILES_DIR))
+  const files = readdirSync(joinPath(SOURCE_PATH, FILES_DIR), {
+    recursive: true,
+  })
+    .filter(
+      (file) =>
+        !statSync(
+          joinPath(SOURCE_PATH, FILES_DIR, file.toString()),
+        ).isDirectory(),
+    )
     .map(
-      (filename) =>
+      (filepath) =>
         /** @type {[string, string]} */ ([
-          filename,
-          readFileSync(joinPath(SOURCE_PATH, FILES_DIR, filename)).toString(),
-        ])
+          filepath,
+          readFileSync(
+            joinPath(SOURCE_PATH, FILES_DIR, filepath.toString()),
+          ).toString(),
+        ]),
     )
     .map(
       ([filename, content]) =>
         `<div data-name="${filename}">
   ${marked.parse(content, { async: false })}
-</div>`
+</div>`,
     )
     .join("\n");
   const html = readFileSync(joinPath(SOURCE_PATH, "index.html")).toString();
