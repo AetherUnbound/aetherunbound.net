@@ -74,9 +74,16 @@ const STATIC_DIR = "static";
     for (const [filename, content] of blogEntries) {
       const slug = filename.replace(/^blog\//, "").replace(/\.md$/, "");
       const postHtml = marked.parse(content, { async: false });
+      const promptHtml = `
+<div class="entry">
+  <span class="prompt">
+    <a class="prompt-link" href="mailto:madison+website@aetherunbound.net">
+      <span class="prompt-username">madison</span><span class="prompt-hostname">@aetherunbound.net</span></a>:<span class="prompt-path">~</span>$ <span class="prompt-input">cat ${filename}</span>
+  </span>
+</div>`;
       writeFileSync(
         joinPath(OUTPUT_PATH, "blog", `${slug}.html`),
-        withFiles.replace(`<!--post-content-->`, postHtml),
+        withFiles.replace(`<!--post-content-->`, promptHtml + "\n" + postHtml),
       );
     }
   }
