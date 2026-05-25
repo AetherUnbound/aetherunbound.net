@@ -23,6 +23,7 @@ export NODE_VERSION := `grep 'node": ">= ' package.json | awk -F'>= ' '{print $2
 # Install dependencies
 install:
     npm install
+    git config core.hooksPath .githooks
 
 alias i := install
 
