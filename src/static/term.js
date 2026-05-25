@@ -109,6 +109,15 @@ const View = ({ onCommand }) => {
       });
     },
     /** @param {string} input */
+    show: function (input) {
+      if (!$currentPrompt) return;
+      $currentPrompt.blur();
+      $currentPrompt.innerText = input;
+      $currentPrompt.dispatchEvent(
+        new KeyboardEvent("keydown", { key: "Enter" }),
+      );
+    },
+    /** @param {string} input */
     animate: async function (input) {
       if (!$currentPrompt) {
         return;
@@ -153,6 +162,8 @@ const view = View({
   onCommand: (input) => {
     const argv = input.split(" ");
     const command = argv[0];
+    // Normalize trailing slash so e.g. "blog/" and "blog" are treated the same.
+    if (argv[1]) argv[1] = argv[1].replace(/\/$/, "");
 
     switch (command) {
       case "":
@@ -287,11 +298,14 @@ const view = View({
 // if __name__ == "__main__":
 view.prompt();
 
-// Skip the animation if the URL params include "skip"
-if (window.location.search.startsWith("?post=")) {
-  const postName = window.location.search.replace(`?post=`, "");
-  await view.animate(`cat blog/${postName}.md`);
-} else if (!window.location.search.includes("?skip")) {
+const path = window.location.pathname;
+if (path.startsWith("/blog/")) {
+  // Post content is pre-rendered in the HTML source for SEO; nothing to animate.
+} else if (window.location.search.includes("skip")) {
+  view.show("cat about.md");
+  view.show("cat projects.md");
+  view.show("cat pursuits.md");
+} else {
   await view.animate("cat about.md");
   await view.animate("cat projects.md");
   await view.animate("cat pursuits.md");
