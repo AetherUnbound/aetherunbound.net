@@ -32,7 +32,11 @@ const View = ({ onCommand }) => {
     if (!$currentPrompt) return;
     const active = document.activeElement;
     if (active === $currentPrompt) return;
-    if (active instanceof HTMLInputElement || active instanceof HTMLTextAreaElement) return;
+    if (
+      active instanceof HTMLInputElement ||
+      active instanceof HTMLTextAreaElement
+    )
+      return;
     if (active instanceof HTMLElement && active.isContentEditable) return;
     // Only capture printable characters, not modifier-only or control sequences
     if (event.key.length === 1 && !event.ctrlKey && !event.metaKey) {
