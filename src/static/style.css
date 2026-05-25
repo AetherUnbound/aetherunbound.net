@@ -50,6 +50,7 @@ em {
 
 p:has(img) {
   text-align: center;
+  font-style: italic;
 }
 
 img {
