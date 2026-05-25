@@ -162,6 +162,8 @@ const view = View({
   onCommand: (input) => {
     const argv = input.split(" ");
     const command = argv[0];
+    // Normalize trailing slash so e.g. "blog/" and "blog" are treated the same.
+    if (argv[1]) argv[1] = argv[1].replace(/\/$/, "");
 
     switch (command) {
       case "":
