@@ -27,17 +27,19 @@ const View = ({ onCommand }) => {
   );
   let $currentPrompt = /** @type {HTMLSpanElement | null} */ (null);
 
-  // Add document click listener to focus terminal input unless selecting text
-  document.addEventListener("click", (event) => {
-    if ($currentPrompt) {
-      // Check if user is selecting text (has a selection)
-      const selection = window.getSelection();
-      if (selection && selection.toString().length > 0) {
-        // User is selecting text, don't interfere with the selection
-        return;
-      }
-
-      // Otherwise, focus the current prompt
+  // Focus terminal input on keypress, but not on click (avoids disrupting reading/selecting)
+  document.addEventListener("keydown", (event) => {
+    if (!$currentPrompt) return;
+    const active = document.activeElement;
+    if (active === $currentPrompt) return;
+    if (
+      active instanceof HTMLInputElement ||
+      active instanceof HTMLTextAreaElement
+    )
+      return;
+    if (active instanceof HTMLElement && active.isContentEditable) return;
+    // Only capture printable characters, not modifier-only or control sequences
+    if (event.key.length === 1 && !event.ctrlKey && !event.metaKey) {
       $currentPrompt.focus();
     }
   });
