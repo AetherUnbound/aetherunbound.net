@@ -103,7 +103,7 @@ I have some wonderful partners and friends who use my Plex and they each have ex
 
 I've rambled plenty now and provided more than enough context - let's talk about what I actually stood up!
 
-_Diagram to follow_
+_Diagram to come once I get a chance to make it_
 
 ## The existing setup
 
