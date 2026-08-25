@@ -514,7 +514,7 @@ This was the "extra" service I'm most proud of. Trying to remember all of the po
 For the `<subdomain>.kaitain.local` addresses, this did require an entry in my `/etc/hosts` file on my laptop:
 
 ```
-192.168.0.<kaitain-subnet-addr>   portainer.kaitain.local lidarr.kaitain.local prowlarr.kaitain.local deluge.kaitain.local tautulli.kaitain.local plex.kaitain.local slskd.kaitain.local wrapperr.kaitain.local simon.kaitain.local
+192.168.0.<kaitain-subnet-addr>   portainer.kaitain.local <service>.kaitain.local
 ```
 
 The non-`.local` Tailscale references work from any device with Tailscale installed and running, including my phone, which means that I can jump onto Lidarr and add new music while I'm out and about. I won't share the `Caddyfile` directly because I have a script generate it based off a service mapping. With Holly's help, I was also able to set up a similarly-generated landing page for all the services available on the homelab:
