@@ -9,6 +9,28 @@ import {
 } from "fs";
 import { join as joinPath } from "path";
 import { marked } from "marked";
+import markedFootnote from "marked-footnote";
+import { gfmHeadingId } from "marked-gfm-heading-id";
+
+// Configure marked with heading IDs (no prefix)
+marked.use(gfmHeadingId());
+
+// Configure marked with footnotes
+marked.use(markedFootnote());
+
+// Custom renderer to add target="_blank" only to external links
+const renderer = {
+  link({ href, title, text }) {
+    const hrefStr = String(href || '');
+    // Only add target="_blank" for external links (not starting with # or /)
+    const isExternal = !hrefStr.startsWith('#') && !hrefStr.startsWith('/');
+    const titleAttr = title ? ` title="${title}"` : '';
+    const targetAttr = isExternal ? ' target="_blank"' : '';
+    return `<a href="${hrefStr}"${titleAttr}${targetAttr}>${text}</a>`;
+  }
+};
+
+marked.use({ renderer });
 
 const SOURCE_PATH = "src/";
 const OUTPUT_PATH = "public/"; // This value is hard-coded rather than exposed in config because it is used by package.json scripts as well.

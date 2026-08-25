@@ -53,6 +53,10 @@ p:has(img) {
   font-style: italic;
 }
 
+pre {
+  overflow-x: auto;
+}
+
 img {
   max-width: 50%;
 }
