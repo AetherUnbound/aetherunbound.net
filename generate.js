@@ -11,6 +11,19 @@ import { join as joinPath } from "path";
 import { marked } from "marked";
 import markedFootnote from "marked-footnote";
 import { gfmHeadingId } from "marked-gfm-heading-id";
+import { markedHighlight } from "marked-highlight";
+import hljs from "highlight.js";
+
+// Configure marked with syntax highlighting
+marked.use(
+  markedHighlight({
+    langPrefix: 'hljs language-',
+    highlight(code, lang) {
+      const language = hljs.getLanguage(lang) ? lang : 'plaintext';
+      return hljs.highlight(code, { language }).value;
+    }
+  })
+);
 
 // Configure marked with heading IDs (no prefix)
 marked.use(gfmHeadingId());

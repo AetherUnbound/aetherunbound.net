@@ -53,8 +53,14 @@ p:has(img) {
   font-style: italic;
 }
 
+/* Allow horizontal scrolling for code blocks on mobile */
 pre {
   overflow-x: auto;
+}
+
+/* Match code block background to site background */
+.hljs {
+  background: var(--background-color) !important;
 }
 
 img {
