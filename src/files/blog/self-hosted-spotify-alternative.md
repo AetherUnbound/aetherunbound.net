@@ -103,7 +103,9 @@ I have some wonderful partners and friends who use my Plex and they each have ex
 
 I've rambled plenty now and provided more than enough context - let's talk about what I actually stood up!
 
-_Diagram to come once I get a chance to make it_
+<p>
+<img src="/images/blog/self-hosted-spotify-alternative/music-stack.png" />
+</p>
 
 ## The existing setup
 
